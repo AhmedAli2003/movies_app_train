@@ -13,12 +13,19 @@ class MoviesInfo extends Equatable {
     required this.totalMovies,
     required this.movies,
   });
-  
+
+  const MoviesInfo.getEmpty({
+    this.currentPage = 0,
+    this.totalPages = 0,
+    this.totalMovies = 0,
+    this.movies = const [],
+  });
+
   @override
   List<Object?> get props => [
-    currentPage,
-    totalPages,
-    totalMovies,
-    movies,
-  ];
+        currentPage,
+        totalPages,
+        totalMovies,
+        movies,
+      ];
 }

@@ -5,6 +5,6 @@ class ErrorHandler {
 
 
   static Failure errorHandler({Object? error}) {
-    return InternetConnectionFailure();
+    return InternetConnectionFailure(error.toString());
   }
 }

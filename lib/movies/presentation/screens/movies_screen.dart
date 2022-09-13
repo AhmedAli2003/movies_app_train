@@ -1,10 +1,7 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:movies_app_train/app/network/internet_connection.dart';
-import 'package:movies_app_train/movies/data/repositories/movies_repository_impl.dart';
-import 'package:movies_app_train/movies/domain/entities/movies_info.dart';
-import 'package:movies_app_train/movies/domain/usecases/get_now_playing_movies_usercase.dart';
-import '../../data/datasources/movie_remote_data_source.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_app_train/app/network/request_state.dart';
+import 'package:movies_app_train/movies/presentation/bloc/movies_bloc.dart';
 
 class MoviesScreen extends StatefulWidget {
   const MoviesScreen({super.key});
@@ -14,24 +11,34 @@ class MoviesScreen extends StatefulWidget {
 }
 
 class _MoviesScreenState extends State<MoviesScreen> {
+  late final MoviesBloc moviesBloc;
 
   @override
   void initState() {
     super.initState();
-    _getData();
-  }
-
-  void _getData() async {
-    final result = await GetNowPlayingMoviesUsecase(
-      MoviesRepositoryImpl(MovieRemoteDataSource(Dio()), InternetConnectionImpl())
-    ).call(2);
-    MoviesInfo? info;
-    result.fold((l) => print, (r) => info = r);
-    print(info!.movies[0]);
+    moviesBloc = BlocProvider.of<MoviesBloc>(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      body: Center(
+        child: BlocBuilder<MoviesBloc, MoviesState>(
+          builder: (context, state) {
+            if (state.nowPlayingRequestState == RequestState.loaded && state.popularRequestState == RequestState.loaded && state.topRatedRequestState == RequestState.loaded) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(state.nowPlayingMoviesInfo.movies[5].title),
+                  Text(state.popularMoviesInfo.movies[5].title),
+                  Text(state.topRatedMoviesInfo.movies[5].title),
+                ],
+              );
+            }
+            return const CircularProgressIndicator();
+          },
+        ),
+      ),
+    );
   }
 }

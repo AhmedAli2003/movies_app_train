@@ -6,4 +6,5 @@ class AppValues {
   static const double doubleOrNull = 0.0;
   static const List<int> intListOrNull = [];
   static const List<Movie> movieOrNull = [];
+  static const String empty = '';
 }

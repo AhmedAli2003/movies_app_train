@@ -1,7 +1,7 @@
 class AppUrls {
-  static const String _baseUrl = 'https://api.themoviedb.org/3';
+  static const String baseUrl = 'https://api.themoviedb.org/3';
   static const String _movieEndPoint = '/movie';
-  static const String movieBaseUrl = '$_baseUrl$_movieEndPoint';
+  static const String movieBaseUrl = '$baseUrl$_movieEndPoint';
   static const String apiKey = '4ca6210c4c36c339b58667aa2777140c';
   static const String nowPlayingMovies = '/now_playing';
   static const String popularMovies = '/popular';
