@@ -4,6 +4,7 @@ import 'package:movies_app_train/app/network/dio_factory.dart';
 import 'package:movies_app_train/app/network/internet_connection.dart';
 import 'package:movies_app_train/movies/data/repositories/movies_repository_impl.dart';
 import 'package:movies_app_train/movies/domain/repositories/movies_repository.dart';
+import 'package:movies_app_train/movies/domain/usecases/get_movie_details_usecase.dart';
 import 'package:movies_app_train/movies/domain/usecases/get_now_playing_movies_usercase.dart';
 import 'package:movies_app_train/movies/domain/usecases/get_popular_movies_usecase.dart';
 import 'package:movies_app_train/movies/domain/usecases/get_top_rated_movies_usecase.dart';
@@ -18,6 +19,7 @@ void setup() {
   getIt.registerLazySingleton<GetPopularMoviesUsecase>(() => GetPopularMoviesUsecase(getIt()));
   getIt.registerLazySingleton<GetTopRatedMoviesUsecase>(() => GetTopRatedMoviesUsecase(getIt()));
   getIt.registerLazySingleton<GetUpcomingMoviesUsecase>(() => GetUpcomingMoviesUsecase(getIt()));
+  getIt.registerLazySingleton<GetMovieDetailsUsecase>(() => GetMovieDetailsUsecase(getIt()));
 
   // Repositories
   getIt.registerLazySingleton<MoviesRepository>(() => MoviesRepositoryImpl(getIt(), getIt()));

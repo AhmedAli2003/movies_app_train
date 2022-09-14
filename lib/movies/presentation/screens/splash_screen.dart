@@ -8,7 +8,7 @@ import 'package:movies_app_train/app/constants/app_constants.dart';
 import 'package:movies_app_train/app/router/app_routes.dart';
 import 'package:movies_app_train/app/theme/app_colors.dart';
 import 'package:movies_app_train/app/utils/general_functions.dart';
-import 'package:movies_app_train/movies/presentation/bloc/movies_bloc.dart';
+import 'package:movies_app_train/movies/presentation/blocs/movies_bloc/movies_bloc.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

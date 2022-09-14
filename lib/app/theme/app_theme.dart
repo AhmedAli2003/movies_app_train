@@ -11,7 +11,7 @@ class AppTheme {
       secondary: AppColors.secondaryColor,
     ),
     // Text Theme
-    textTheme: TextTheme(
+    textTheme: const TextTheme(
       
     ),
   );

@@ -2,6 +2,7 @@ import 'package:movies_app_train/app/errors/error_handler.dart';
 import 'package:movies_app_train/app/errors/failure.dart';
 import 'package:dartz/dartz.dart';
 import 'package:movies_app_train/app/network/internet_connection.dart';
+import 'package:movies_app_train/movies/domain/entities/detailed_movie.dart';
 import 'package:movies_app_train/movies/domain/entities/movies_info.dart';
 import 'package:movies_app_train/movies/domain/repositories/movies_repository.dart';
 import '../datasources/movie_remote_data_source.dart';
@@ -52,6 +53,18 @@ class MoviesRepositoryImpl implements MoviesRepository {
     if (await internetConnection.isConnected) {
       try {
         return Right(await remoteDataSource.getUpcomingMovies(page: page));
+      } catch (error) {
+        return Left(ErrorHandler.errorHandler(error: error));
+      }
+    }
+    return Left(ErrorHandler.errorHandler());
+  }
+
+  @override
+  Future<Either<Failure, DetailedMovie>> getmovieDetails(int id)  async {
+    if (await internetConnection.isConnected) {
+      try {
+        return Right(await remoteDataSource.getMovieDetails(id: id));
       } catch (error) {
         return Left(ErrorHandler.errorHandler(error: error));
       }

@@ -3,8 +3,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:movies_app_train/app/constants/app_constants.dart';
 import 'package:movies_app_train/app/constants/app_strings.dart';
 import 'package:movies_app_train/app/constants/app_urls.dart';
+import 'package:movies_app_train/app/general_ui/custom_shader_mask.dart';
+import 'package:movies_app_train/app/router/app_routes.dart';
 import 'package:movies_app_train/movies/domain/entities/movie.dart';
 
 class CarousalShowsWidget extends StatelessWidget {
@@ -29,38 +32,28 @@ class CarousalShowsWidget extends StatelessWidget {
           onPageChanged: (index, reason) {},
         ),
         items: nowPlayingMovies.map(
-          (item) {
+          (movie) {
             return GestureDetector(
-              key: const Key('openMovieMinimalDetail'),
+              key: const Key(AppConstants.gestureDetectorMoviesKey),
               onTap: () {
-                /// TODO : NAVIGATE TO MOVIE DETAILS
+                Navigator.of(context).pushNamed(AppRoutes.detailsMovieScreen, arguments: {
+                  AppConstants.id: movie.id,
+                  AppConstants.posterPath: movie.posterPath,
+                  AppConstants.title: movie.title,
+                });
               },
               child: Stack(
                 children: [
-                  ShaderMask(
-                    shaderCallback: (rect) {
-                      return const LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          // fromLTRB
-                          Colors.transparent,
-                          Colors.black,
-                          Colors.black,
-                          Colors.transparent,
-                        ],
-                        stops: [0.0, 0.15, 0.6, 1],
-                      ).createShader(
-                        Rect.fromLTRB(0, 0, rect.width, rect.height),
-                      );
-                    },
-                    blendMode: BlendMode.dstIn,
+                  CustomShaderMask(
                     child: Center(
-                      child: CachedNetworkImage(
-                        height: 560.0,
-                        width: width,
-                        imageUrl: AppUrls.imageUrl(item.posterPath),
-                        fit: BoxFit.fill,
+                      child: Hero(
+                        tag: AppConstants.posterPathHeroTag,
+                        child: CachedNetworkImage(
+                          height: 560.0,
+                          width: width,
+                          imageUrl: AppUrls.imageUrl(movie.posterPath),
+                          fit: BoxFit.fill,
+                        ),
                       ),
                     ),
                   ),
@@ -94,7 +87,7 @@ class CarousalShowsWidget extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(bottom: 16.0),
                           child: Text(
-                            item.title,
+                            movie.title,
                             textAlign: TextAlign.center,
                             style: GoogleFonts.dosis(
                               fontSize: 24,

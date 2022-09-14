@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class ThisIsFadeRoute extends PageRouteBuilder {
   final Widget? page;
   final Widget? route;
+  final RouteSettings? routeSettings;
 
   ThisIsFadeRoute({
     this.page,
     this.route,
-  }) : super(
+    this.routeSettings
+  }) : super(settings: routeSettings,
           pageBuilder: (
             BuildContext context,
             Animation<double> animation,

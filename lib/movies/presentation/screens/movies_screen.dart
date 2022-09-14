@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app_train/app/constants/app_constants.dart';
 import 'package:movies_app_train/app/constants/app_strings.dart';
+import 'package:movies_app_train/app/general_ui/custom_bottom_navigation_bar.dart';
 import 'package:movies_app_train/app/network/request_state.dart';
-import 'package:movies_app_train/app/theme/app_colors.dart';
 import 'package:movies_app_train/app/theme/app_dimentions.dart';
 import 'package:movies_app_train/movies/domain/entities/movie.dart';
-import 'package:movies_app_train/movies/presentation/bloc/movies_bloc.dart';
+import 'package:movies_app_train/movies/presentation/blocs/movies_bloc/movies_bloc.dart';
 import 'package:movies_app_train/movies/presentation/widgets/carousal_shows_widget.dart';
 import 'package:movies_app_train/movies/presentation/widgets/list_loading_widget.dart';
 import 'package:movies_app_train/movies/presentation/widgets/list_title_widget.dart';
@@ -32,7 +31,11 @@ class MoviesScreen extends StatelessWidget {
               builder: (context, state) {
                 if (state.nowPlayingRequestState == RequestState.loaded) {
                   final List<Movie> nowPlayingMovies = state.nowPlayingMoviesInfo.movies;
-                  return CarousalShowsWidget(nowPlayingMovies: nowPlayingMovies, width: width);
+                  return Stack(
+                    children: [
+                      CarousalShowsWidget(nowPlayingMovies: nowPlayingMovies, width: width),
+                    ],
+                  );
                 }
                 return const Center(child: CircularProgressIndicator());
               },
@@ -83,6 +86,7 @@ class MoviesScreen extends StatelessWidget {
           ],
         ),
       ),
+      bottomNavigationBar: const MyCustomBottomNavigationBar(),
     );
   }
 }
