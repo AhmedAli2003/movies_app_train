@@ -19,12 +19,6 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   late final MoviesBloc moviesBloc;
-  Timer? timer1;
-  Timer? timer2;
-  Timer? timer3;
-  Timer? timer4;
-  Timer? timer5;
-  Timer? timer6;
 
   @override
   void initState() {
@@ -36,47 +30,23 @@ class _SplashScreenState extends State<SplashScreen> {
       ..add(const GetPopularMoviesEvent())
       ..add(const GetTopRatedMoviesEvent())
       ..add(const GetUpcomingMoviesEvent());
+    makeAnimation();
+  }
 
-    timer1 = Timer(const Duration(milliseconds: 400), () {
-      setState(() {
-        _a = true;
-      });
-    });
-    timer2 = Timer(const Duration(milliseconds: 400), () {
-      setState(() {
-        _b = true;
-      });
-    });
-    timer3 = Timer(const Duration(milliseconds: 1300), () {
-      setState(() {
-        _c = true;
-      });
-    });
-    timer4 = Timer(const Duration(milliseconds: 1700), () {
-      setState(() {
-        _e = true;
-      });
-    });
-    timer5 = Timer(const Duration(milliseconds: 3400), () {
-      setState(() {
-        _d = true;
-      });
-    });
-    timer6 = Timer(const Duration(milliseconds: 3850), () {
-      setState(() {
-        Navigator.of(context).pushReplacementNamed(AppRoutes.moviesScreen);
-      });
-    });
+  makeAnimation() {
+    Future.delayed(const Duration(milliseconds: 400), () => setState(() => _a = true));
+    Future.delayed(const Duration(milliseconds: 400), () => setState(() => _b = true));
+    Future.delayed(const Duration(milliseconds: 1300), () => setState(() => _c = true));
+    Future.delayed(const Duration(milliseconds: 1700), () => setState(() => _e = true));
+    Future.delayed(const Duration(milliseconds: 3400), () => setState(() => _d = true));
+    Future.delayed(
+      const Duration(milliseconds: 3850),
+      () => Navigator.of(context).pushReplacementNamed(AppRoutes.moviesScreen),
+    );
   }
 
   @override
   void dispose() {
-    timer1?.cancel();
-    timer2?.cancel();
-    timer3?.cancel();
-    timer4?.cancel();
-    timer5?.cancel();
-    timer6?.cancel();
     setSystemOverlayStyle(Brightness.dark);
     super.dispose();
   }
@@ -108,7 +78,6 @@ class _SplashScreenState extends State<SplashScreen> {
                       ? h / 2
                       : 20,
               width: 20,
-              // color: Colors.deepPurpleAccent,
             ),
             AnimatedContainer(
               duration: Duration(
@@ -130,7 +99,6 @@ class _SplashScreenState extends State<SplashScreen> {
                       : 20,
               decoration: BoxDecoration(
                   color: _b ? AppColors.primaryColor : Colors.transparent,
-                  // shape: _c? BoxShape.rectangle : BoxShape.circle,
                   borderRadius: _d ? const BorderRadius.only() : BorderRadius.circular(30)),
               child: Center(
                 child: _e
