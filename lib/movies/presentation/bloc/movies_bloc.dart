@@ -7,6 +7,7 @@ import 'package:movies_app_train/movies/domain/entities/movies_info.dart';
 import 'package:movies_app_train/movies/domain/usecases/get_now_playing_movies_usercase.dart';
 import 'package:movies_app_train/movies/domain/usecases/get_popular_movies_usecase.dart';
 import 'package:movies_app_train/movies/domain/usecases/get_top_rated_movies_usecase.dart';
+import 'package:movies_app_train/movies/domain/usecases/get_upcoming_movies_usecase.dart';
 
 part 'movies_event.dart';
 part 'movies_state.dart';
@@ -15,12 +16,14 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
   int nowPlayingMoviesPage = 1;
   int popularMoviesPage = 1;
   int topRatedMoviesPage = 1;
+  int upcomingMoviesPage = 1;
 
   MoviesBloc()
       : super(const MoviesState(
           nowPlayingRequestState: RequestState.loading,
           popularRequestState: RequestState.loading,
           topRatedRequestState: RequestState.loading,
+          upcomingRequestState: RequestState.loading,
         )) {
     on<GetNowPlayingMoviesEvent>((event, emit) async {
       final newPlayingMoviesUsecase = getIt<GetNowPlayingMoviesUsecase>();
@@ -38,6 +41,7 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
         },
       );
     });
+
     on<GetPopularMoviesEvent>((event, emit) async {
       final popularMoviesUsecase = getIt<GetPopularMoviesUsecase>();
       final either = await popularMoviesUsecase(popularMoviesPage);
@@ -51,6 +55,7 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
         },
       );
     });
+
     on<GetTopRatedMoviesEvent>((event, emit) async {
       final topRatedMoviesUsecase = getIt<GetTopRatedMoviesUsecase>();
       final either = await topRatedMoviesUsecase(topRatedMoviesPage);
@@ -63,6 +68,23 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
           emit(state.copyWith(
             topRatedRequestState: RequestState.loaded,
             topRatedMoviesInfo: moviesInfo,
+          ));
+        },
+      );
+    });
+
+    on<GetUpcomingMoviesEvent>((event, emit) async {
+      final upcomingMoviesUsecase = getIt<GetUpcomingMoviesUsecase>();
+      final either = await upcomingMoviesUsecase(upcomingMoviesPage);
+      either.fold(
+        (failure) => emit(state.copyWith(
+          upcomingRequestState: RequestState.error,
+          upcomingErrorMessage: failure.errorMessage,
+        )),
+        (moviesInfo) {
+          emit(state.copyWith(
+            upcomingRequestState: RequestState.loaded,
+            upcomingMoviesInfo: moviesInfo,
           ));
         },
       );

@@ -6,4 +6,5 @@ abstract class MoviesRepository {
   Future<Either<Failure, MoviesInfo>> getNowPlayingMovies(int page);
   Future<Either<Failure, MoviesInfo>> getPopularMovies(int page);
   Future<Either<Failure, MoviesInfo>> getTopRatedMovies(int page);
+  Future<Either<Failure, MoviesInfo>> getUpcomingMovies(int page);
 }

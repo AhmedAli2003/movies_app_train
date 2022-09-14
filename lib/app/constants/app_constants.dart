@@ -3,4 +3,5 @@ class AppConstants {
   static const String appTitle = 'Movies App';
   static const String applicationJson = 'application/json';
   static const int splashScreenDuration = 15;
+  static const String moviesSingleChildScrollViewKey = 'movieScrollView';
 }

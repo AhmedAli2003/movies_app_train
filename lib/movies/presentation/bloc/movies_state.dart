@@ -10,6 +10,9 @@ class MoviesState extends Equatable {
   final MoviesInfo topRatedMoviesInfo;
   final RequestState topRatedRequestState;
   final String topRatedErrorMessage;
+  final MoviesInfo upcomingMoviesInfo;
+  final RequestState upcomingRequestState;
+  final String upcomingErrorMessage;
   const MoviesState({
     this.nowPlayingMoviesInfo = const MoviesInfo.getEmpty(),
     this.nowPlayingRequestState = RequestState.loading,
@@ -20,6 +23,9 @@ class MoviesState extends Equatable {
     this.topRatedMoviesInfo = const MoviesInfo.getEmpty(),
     this.topRatedRequestState = RequestState.loading,
     this.topRatedErrorMessage = AppValues.empty,
+    this.upcomingMoviesInfo = const MoviesInfo.getEmpty(),
+    this.upcomingRequestState = RequestState.loading,
+    this.upcomingErrorMessage = AppValues.empty,
   });
 
   MoviesState copyWith({
@@ -32,6 +38,9 @@ class MoviesState extends Equatable {
     MoviesInfo? topRatedMoviesInfo,
     RequestState? topRatedRequestState,
     String? topRatedErrorMessage,
+    MoviesInfo? upcomingMoviesInfo,
+    RequestState? upcomingRequestState,
+    String? upcomingErrorMessage,
   }) {
     return MoviesState(
       nowPlayingMoviesInfo: nowPlayingMoviesInfo ?? this.nowPlayingMoviesInfo ,
@@ -43,6 +52,9 @@ class MoviesState extends Equatable {
       topRatedMoviesInfo: topRatedMoviesInfo ?? this.topRatedMoviesInfo,
       topRatedRequestState: topRatedRequestState ?? this.topRatedRequestState,
       topRatedErrorMessage: topRatedErrorMessage ?? this.topRatedErrorMessage,
+      upcomingMoviesInfo: upcomingMoviesInfo ?? this.upcomingMoviesInfo,
+      upcomingRequestState: upcomingRequestState ?? this.upcomingRequestState,
+      upcomingErrorMessage: upcomingErrorMessage ?? this.upcomingErrorMessage,
     );
   }
   @override
@@ -56,5 +68,8 @@ class MoviesState extends Equatable {
     topRatedMoviesInfo,
     topRatedRequestState,
     topRatedErrorMessage,
+    upcomingMoviesInfo,
+    upcomingRequestState,
+    upcomingErrorMessage,
   ];
 }

@@ -20,6 +20,12 @@ dependencies:
   internet_connection_checker: ^0.0.1+4
   flutter_bloc: ^8.1.1
   get_it: ^7.2.0
+  animate_do: ^2.1.0
+  cached_network_image: ^3.2.2
+  carousel_slider: ^4.1.1
+  google_fonts: ^3.0.1
+  shimmer: ^2.0.0
+  animated_text_kit: ^4.2.2
 
 dev_dependencies:
   flutter_test:

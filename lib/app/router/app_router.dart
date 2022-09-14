@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app_train/app/router/app_routes.dart';
+import 'package:movies_app_train/app/theme/animation_transitions.dart';
 import 'package:movies_app_train/movies/presentation/screens/details_list_movies_screen.dart';
 import 'package:movies_app_train/movies/presentation/screens/details_movie_screen.dart';
 import 'package:movies_app_train/movies/presentation/screens/movies_screen.dart';
@@ -11,7 +12,7 @@ class AppRouter {
       case AppRoutes.splashScreen:
         return MaterialPageRoute(builder: (_) => const SplashScreen());
       case AppRoutes.moviesScreen:
-        return MaterialPageRoute(builder: (_) => const MoviesScreen());
+        return ThisIsFadeRoute(route: const MoviesScreen());
       case AppRoutes.detailsListMoviesScreen:
         return MaterialPageRoute(builder: (_) => const DetailsListMoviesScreen());
       case AppRoutes.detailsMovieScreen:

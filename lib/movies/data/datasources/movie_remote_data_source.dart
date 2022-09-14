@@ -16,14 +16,23 @@ abstract class MovieRemoteDataSource {
     @Query(AppUrls.languageQuery) String language = AppConstants.language,
     @Query(AppUrls.pageQuery) int page = AppUrls.firstPage,
   });
+
   @GET(AppUrls.popularMovies)
   Future<MovieInfoModel> getPopularMovies({
     @Query(AppUrls.apiKeyQuery) String apiKey = AppUrls.apiKey,
     @Query(AppUrls.languageQuery) String language = AppConstants.language,
     @Query(AppUrls.pageQuery) int page = AppUrls.firstPage,
   });
+  
   @GET(AppUrls.topRatedMovies)
   Future<MovieInfoModel> getTopRatedMovies({
+    @Query(AppUrls.apiKeyQuery) String apiKey = AppUrls.apiKey,
+    @Query(AppUrls.languageQuery) String language = AppConstants.language,
+    @Query(AppUrls.pageQuery) int page = AppUrls.firstPage,
+  });
+
+  @GET(AppUrls.upcomingMovies)
+  Future<MovieInfoModel> getUpcomingMovies({
     @Query(AppUrls.apiKeyQuery) String apiKey = AppUrls.apiKey,
     @Query(AppUrls.languageQuery) String language = AppConstants.language,
     @Query(AppUrls.pageQuery) int page = AppUrls.firstPage,

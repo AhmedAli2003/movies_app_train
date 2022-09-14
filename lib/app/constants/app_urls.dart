@@ -6,10 +6,13 @@ class AppUrls {
   static const String nowPlayingMovies = '/now_playing';
   static const String popularMovies = '/popular';
   static const String topRatedMovies = '/top_rated';
+  static const String upcomingMovies = '/upcoming';
   static const String apiKeyQuery = 'api_key';
   static const String languageQuery = 'language';
   static const String pageQuery = 'page';
   static const int firstPage = 1;
+  static const String _baseImageUrl = 'https://image.tmdb.org/t/p/w500';
+  static String imageUrl(String url) => '$_baseImageUrl$url';
 }
 
 class AppJsonKeys {
