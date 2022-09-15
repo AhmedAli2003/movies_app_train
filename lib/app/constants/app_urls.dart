@@ -7,6 +7,7 @@ class AppUrls {
   static const String popularMovies = '/popular';
   static const String topRatedMovies = '/top_rated';
   static const String upcomingMovies = '/upcoming';
+  static const String similargMovies = '/similar';
   static const String apiKeyQuery = 'api_key';
   static const String languageQuery = 'language';
   static const String pageQuery = 'page';

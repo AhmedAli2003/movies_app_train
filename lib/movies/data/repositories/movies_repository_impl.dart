@@ -47,7 +47,7 @@ class MoviesRepositoryImpl implements MoviesRepository {
     }
     return Left(ErrorHandler.errorHandler());
   }
-  
+
   @override
   Future<Either<Failure, MoviesInfo>> getUpcomingMovies(int page) async {
     if (await internetConnection.isConnected) {
@@ -61,10 +61,22 @@ class MoviesRepositoryImpl implements MoviesRepository {
   }
 
   @override
-  Future<Either<Failure, DetailedMovie>> getmovieDetails(int id)  async {
+  Future<Either<Failure, DetailedMovie>> getmovieDetails(int id) async {
     if (await internetConnection.isConnected) {
       try {
         return Right(await remoteDataSource.getMovieDetails(id: id));
+      } catch (error) {
+        return Left(ErrorHandler.errorHandler(error: error));
+      }
+    }
+    return Left(ErrorHandler.errorHandler());
+  }
+
+  @override
+  Future<Either<Failure, MoviesInfo>> getSimilarMovies(int id, int page) async {
+    if (await internetConnection.isConnected) {
+      try {
+        return Right(await remoteDataSource.getSimilarMovies(id: id, page: page));
       } catch (error) {
         return Left(ErrorHandler.errorHandler(error: error));
       }

@@ -45,4 +45,12 @@ abstract class MovieRemoteDataSource {
     @Query(AppUrls.apiKeyQuery) String apiKey = AppUrls.apiKey,
     @Query(AppUrls.languageQuery) String language = AppConstants.language,
   });
+
+  @GET('/{id}/${AppUrls.similargMovies}')
+  Future<MovieInfoModel> getSimilarMovies({
+    @Path() required int id,
+    @Query(AppUrls.apiKeyQuery) String apiKey = AppUrls.apiKey,
+    @Query(AppUrls.languageQuery) String language = AppConstants.language,
+    @Query(AppUrls.pageQuery) int page = AppUrls.firstPage,
+  });
 }
