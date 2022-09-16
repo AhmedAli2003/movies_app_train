@@ -13,11 +13,6 @@ part 'movies_event.dart';
 part 'movies_state.dart';
 
 class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
-  int nowPlayingMoviesPage = 1;
-  int popularMoviesPage = 1;
-  int topRatedMoviesPage = 1;
-  int upcomingMoviesPage = 1;
-
   MoviesBloc()
       : super(const MoviesState(
           nowPlayingRequestState: RequestState.loading,
@@ -27,7 +22,7 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
         )) {
     on<GetNowPlayingMoviesEvent>((event, emit) async {
       final newPlayingMoviesUsecase = getIt<GetNowPlayingMoviesUsecase>();
-      final either = await newPlayingMoviesUsecase(nowPlayingMoviesPage);
+      final either = await newPlayingMoviesUsecase(event.page);
       either.fold(
         (failure) => emit(state.copyWith(
           nowPlayingRequestState: RequestState.error,
@@ -44,7 +39,7 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
 
     on<GetPopularMoviesEvent>((event, emit) async {
       final popularMoviesUsecase = getIt<GetPopularMoviesUsecase>();
-      final either = await popularMoviesUsecase(popularMoviesPage);
+      final either = await popularMoviesUsecase(event.page);
       either.fold(
         (failure) => emit(state.copyWith(
           popularRequestState: RequestState.error,
@@ -58,7 +53,7 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
 
     on<GetTopRatedMoviesEvent>((event, emit) async {
       final topRatedMoviesUsecase = getIt<GetTopRatedMoviesUsecase>();
-      final either = await topRatedMoviesUsecase(topRatedMoviesPage);
+      final either = await topRatedMoviesUsecase(event.page);
       either.fold(
         (failure) => emit(state.copyWith(
           topRatedRequestState: RequestState.error,
@@ -75,7 +70,7 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
 
     on<GetUpcomingMoviesEvent>((event, emit) async {
       final upcomingMoviesUsecase = getIt<GetUpcomingMoviesUsecase>();
-      final either = await upcomingMoviesUsecase(upcomingMoviesPage);
+      final either = await upcomingMoviesUsecase(event.page);
       either.fold(
         (failure) => emit(state.copyWith(
           upcomingRequestState: RequestState.error,
@@ -90,4 +85,5 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
       );
     });
   }
+
 }

@@ -23,13 +23,13 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-
+    const int initialPage = 1;
     moviesBloc = BlocProvider.of<MoviesBloc>(context);
     moviesBloc
-      ..add(const GetNowPlayingMoviesEvent())
-      ..add(const GetPopularMoviesEvent())
-      ..add(const GetTopRatedMoviesEvent())
-      ..add(const GetUpcomingMoviesEvent());
+      ..add(const GetNowPlayingMoviesEvent(initialPage))
+      ..add(const GetPopularMoviesEvent(initialPage))
+      ..add(const GetTopRatedMoviesEvent(initialPage))
+      ..add(const GetUpcomingMoviesEvent(initialPage));
     makeAnimation();
   }
 

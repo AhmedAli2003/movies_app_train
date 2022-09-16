@@ -13,15 +13,27 @@ class MovieModel extends Movie {
   final String? titleM;
   @JsonKey(name: AppJsonKeys.posterPath)
   final String? posterPathM;
+  @JsonKey(name: AppJsonKeys.releaseDate)
+  final String? releaseDateM;
+  @JsonKey(name: AppJsonKeys.overview)
+  final String? overviewM;
+  @JsonKey(name: AppJsonKeys.voteAverage)
+  final double? voteAverageM;
 
   const MovieModel({
     this.idM,
     this.titleM,
     this.posterPathM,
+    this.releaseDateM,
+    this.overviewM,
+    this.voteAverageM,
   }) : super(
           id: idM ?? AppValues.intOrNull,
           posterPath: posterPathM ?? AppValues.strOrNull,
           title: titleM ?? AppValues.strOrNull,
+          releaseDate: releaseDateM ?? AppValues.strOrNull,
+          overview: overviewM ?? AppValues.strOrNull,
+          voteAverage: voteAverageM ?? AppValues.doubleOrNull,
         );
 
   factory MovieModel.fromJson(Map<String, dynamic> json) => _$MovieModelFromJson(json);

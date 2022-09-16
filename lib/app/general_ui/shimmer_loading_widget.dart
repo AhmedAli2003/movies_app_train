@@ -12,7 +12,7 @@ class ShimmerLoadingWidget extends StatelessWidget {
       direction: ShimmerDirection.ttb,
       baseColor: Colors.grey[900]!,
       highlightColor: Colors.grey[600]!,
-      period: const Duration(milliseconds: 300),
+      period: const Duration(milliseconds: 1000),
       child: Container(
         height: 400,
         width: double.infinity,

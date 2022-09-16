@@ -18,7 +18,7 @@ class DataGenresTimeLineWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
+      padding: const EdgeInsets.only(left: 12, right: 4.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -38,7 +38,7 @@ class DataGenresTimeLineWidget extends StatelessWidget {
           Text(
             getStringOfGenre(genres),
             style: GoogleFonts.actor(
-              fontSize: 16,
+              fontSize: 15,
             ),
           ),
           const Padding(

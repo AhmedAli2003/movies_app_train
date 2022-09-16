@@ -1,24 +1,25 @@
 part of 'movies_bloc.dart';
 
 abstract class MoviesEvent extends Equatable {
-  const MoviesEvent();
+  final int page;
+  const MoviesEvent(this.page);
 
   @override
   List<Object> get props => const [];
 }
 
 class GetNowPlayingMoviesEvent extends MoviesEvent {
-  const GetNowPlayingMoviesEvent();
+  const GetNowPlayingMoviesEvent(super.page);
 }
 
 class GetPopularMoviesEvent extends MoviesEvent {
-  const GetPopularMoviesEvent();
+  const GetPopularMoviesEvent(super.page);
 }
 
 class GetTopRatedMoviesEvent extends MoviesEvent {
-  const GetTopRatedMoviesEvent();
+  const GetTopRatedMoviesEvent(super.page);
 }
 
 class GetUpcomingMoviesEvent extends MoviesEvent {
-  const GetUpcomingMoviesEvent();
+  const GetUpcomingMoviesEvent(super.page);
 }

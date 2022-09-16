@@ -16,7 +16,10 @@ class AppRouter {
       case AppRoutes.moviesScreen:
         return ThisIsFadeRoute(route: const MoviesScreen());
       case AppRoutes.detailsListMoviesScreen:
-        return MaterialPageRoute(builder: (_) => const DetailsListMoviesScreen());
+        return MaterialPageRoute(
+          builder: (_) => const DetailsListMoviesScreen(),
+          settings: settings,
+        );
       case AppRoutes.detailsMovieScreen:
         return ThisIsFadeRoute(
           routeSettings: settings,

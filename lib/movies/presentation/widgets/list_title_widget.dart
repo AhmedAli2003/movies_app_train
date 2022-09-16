@@ -33,7 +33,7 @@ class ListTitleWidget extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              Navigator.of(context).pushNamed(AppRoutes.detailsListMoviesScreen);
+              Navigator.of(context).pushNamed(AppRoutes.detailsListMoviesScreen, arguments: title);
             },
             borderRadius: BorderRadius.circular(8.0),
             child: Padding(
