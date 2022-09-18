@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,7 +7,9 @@ import 'package:movies_app_train/app/constants/app_constants.dart';
 import 'package:movies_app_train/app/router/app_routes.dart';
 import 'package:movies_app_train/app/theme/app_colors.dart';
 import 'package:movies_app_train/app/utils/general_functions.dart';
+import 'package:movies_app_train/auth/presentation/controller/auth_provider.dart';
 import 'package:movies_app_train/movies/presentation/blocs/movies_bloc/movies_bloc.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -18,19 +19,40 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  late final MoviesBloc moviesBloc;
+  late final MoviesBloc _moviesBloc;
+  late AuthProvider _authProvider;
 
   @override
   void initState() {
     super.initState();
     const int initialPage = 1;
-    moviesBloc = BlocProvider.of<MoviesBloc>(context);
-    moviesBloc
+    _moviesBloc = BlocProvider.of<MoviesBloc>(context);
+    _moviesBloc
       ..add(const GetNowPlayingMoviesEvent(initialPage))
       ..add(const GetPopularMoviesEvent(initialPage))
       ..add(const GetTopRatedMoviesEvent(initialPage))
       ..add(const GetUpcomingMoviesEvent(initialPage));
+
     makeAnimation();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    setState(() {
+      _authProvider = Provider.of<AuthProvider>(context);
+    });
+  }
+
+  _goNext() {
+    final authState = _authProvider.authState;
+    if (authState == AuthState.authenticated) {
+      Navigator.of(context).pushReplacementNamed(AppRoutes.moviesScreen);
+    } else if (authState == AuthState.emailNotVerified) {
+      Navigator.of(context).pushReplacementNamed(AppRoutes.emailVerficationScreen);
+    } else if (authState == AuthState.unAuthenticated) {
+      Navigator.of(context).pushReplacementNamed(AppRoutes.loginScreen);
+    }
   }
 
   makeAnimation() {
@@ -41,7 +63,9 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(const Duration(milliseconds: 3400), () => setState(() => _d = true));
     Future.delayed(
       const Duration(milliseconds: 3850),
-      () => Navigator.of(context).pushReplacementNamed(AppRoutes.moviesScreen),
+      () {
+        _goNext();
+      },
     );
   }
 
@@ -61,9 +85,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
-
     setSystemOverlayStyle(Brightness.light);
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
@@ -97,9 +119,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   : _c
                       ? 200
                       : 20,
-              decoration: BoxDecoration(
-                  color: _b ? AppColors.primaryColor : Colors.transparent,
-                  borderRadius: _d ? const BorderRadius.only() : BorderRadius.circular(30)),
+              decoration: BoxDecoration(color: _b ? AppColors.primaryColor : Colors.transparent, borderRadius: _d ? const BorderRadius.only() : BorderRadius.circular(30)),
               child: Center(
                 child: _e
                     ? AnimatedTextKit(

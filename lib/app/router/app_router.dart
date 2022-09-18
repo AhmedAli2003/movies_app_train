@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app_train/app/router/app_routes.dart';
 import 'package:movies_app_train/app/theme/animation_transitions.dart';
+import 'package:movies_app_train/auth/presentation/screens/email_verfication_screen.dart';
+import 'package:movies_app_train/auth/presentation/screens/login_screen.dart';
+import 'package:movies_app_train/auth/presentation/screens/register_screen.dart';
+import 'package:movies_app_train/auth/presentation/screens/reset_password_screen.dart';
 import 'package:movies_app_train/movies/presentation/blocs/movie_details/movie_details_bloc.dart';
 import 'package:movies_app_train/movies/presentation/screens/details_list_movies_screen.dart';
 import 'package:movies_app_train/movies/presentation/screens/details_movie_screen.dart';
@@ -28,6 +32,14 @@ class AppRouter {
             child: const DetailsMovieScreen(),
           ),
         );
+      case AppRoutes.registerScreen:
+        return ThisIsFadeRoute(route: const RegisterScreen());
+      case AppRoutes.loginScreen:
+        return ThisIsFadeRoute(route: const LoginScreen());
+      case AppRoutes.resetPasswordScreen:
+        return ThisIsFadeRoute(route: const ResetPasswordScreen());
+      case AppRoutes.emailVerficationScreen:
+        return ThisIsFadeRoute(route: const EmailVerficationScreen());
       default:
         return null;
     }

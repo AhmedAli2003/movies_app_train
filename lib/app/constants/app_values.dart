@@ -1,6 +1,8 @@
+import 'package:movies_app_train/movies/domain/entities/detailed_movie.dart';
 import 'package:movies_app_train/movies/domain/entities/genre.dart';
 import 'package:movies_app_train/movies/domain/entities/movie.dart';
 import 'package:movies_app_train/movies/domain/entities/production_company.dart';
+import 'package:movies_app_train/movies/data/models/detailed_movie_model.dart';
 
 class AppValues {
   static const String strOrNull = '';
@@ -11,6 +13,8 @@ class AppValues {
   static const List<Movie> movieOrNull = [];
   static const List<Genre> genresOrNull = [];
   static const List<ProductionCompany> productionCompaniesOrNull = [];
+  static const List<DetailedMovie> detailedMovies = [];
+  static const List<DetailedMovieModel> detailedMovieModels = [];
   static const String empty = '';
   static const int zero = 0;
 }

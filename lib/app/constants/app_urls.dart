@@ -36,9 +36,15 @@ class AppJsonKeys {
   static const String budget = 'budget';
   static const String genres = 'genres';
   static const String homepage = 'homepage';
-  static const String productionCompanies= 'production_companies';
-  static const String revenue= 'revenue';
-  static const String runtime= 'runtime';
-  static const String status= 'status';
-
+  static const String productionCompanies = 'production_companies';
+  static const String revenue = 'revenue';
+  static const String runtime = 'runtime';
+  static const String status = 'status';
+  static const String username = 'username';
+  static const String email = 'email';
+  static const String password = 'password';
+  static const String favorites = 'favorites';
+  static const String watched = 'watched';
+  static const String wantToWatch = 'want_to_watch';
+  static const String dontWantToWatch = 'dont_want_to_watch';
 }

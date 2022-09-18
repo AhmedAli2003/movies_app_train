@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "384647350476",
+    "project_id": "hoshows",
+    "storage_bucket": "hoshows.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:384647350476:android:80dfce00fcebdb93319a69",
+        "android_client_info": {
+          "package_name": "com.example.movies_app_train"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "384647350476-gp09fpv473njmf5gjiim4eu2vlq1l5l3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMFf9X4bGliOxJhdGFSE4TA23rWo8_3o4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "384647350476-gp09fpv473njmf5gjiim4eu2vlq1l5l3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
