@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:movies_app_train/app/constants/app_constants.dart';
 import 'package:movies_app_train/app/constants/app_values.dart';
 import 'package:movies_app_train/auth/data/models/app_user_model.dart';
 
@@ -57,7 +58,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       wantToWatchM: AppValues.detailedMovieModels,
       dontWantToWatchM: AppValues.detailedMovieModels,
     );
-    await _firestore.collection('users').doc(userId).set(userModel.toJson());
+    await _firestore.collection(AppConstants.users).doc(userId).set(userModel.toJson());
     return user;
   }
 
@@ -100,7 +101,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       wantToWatchM: AppValues.detailedMovieModels,
       dontWantToWatchM: AppValues.detailedMovieModels,
     );
-    await _firestore.collection('users').doc(userId).set(userModel.toJson());
+    await _firestore.collection(AppConstants.users).doc(userId).set(userModel.toJson());
     return userCredential;
   }
 }

@@ -26,7 +26,7 @@ class MovieInfoModel extends MoviesInfo {
     currentPage: currentPageM ?? AppValues.intOrNull,
     totalMovies: totalMoviesM ?? AppValues.intOrNull,
     totalPages: totalPagesM ?? AppValues.intOrNull,
-    movies: moviesM ?? AppValues.movieOrNull,
+    movies: moviesM ?? AppValues.moviesOrNull,
   );
 
   factory MovieInfoModel.fromJson(Map<String, dynamic> json) => _$MovieInfoModelFromJson(json);

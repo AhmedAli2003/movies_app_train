@@ -10,7 +10,7 @@ class AppValues {
   static const double doubleOrNull = 0.0;
   static const bool boolOrNull = false;
   static const List<int> intListOrNull = [];
-  static const List<Movie> movieOrNull = [];
+  static const List<Movie> moviesOrNull = [];
   static const List<Genre> genresOrNull = [];
   static const List<ProductionCompany> productionCompaniesOrNull = [];
   static const List<DetailedMovie> detailedMovies = [];

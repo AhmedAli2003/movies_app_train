@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:movies_app_train/app/router/app_routes.dart';
 import 'package:movies_app_train/app/theme/app_colors.dart';
-import 'package:movies_app_train/auth/data/datasources/remote_data_source.dart';
-import 'package:movies_app_train/auth/data/repositories/auth_repository_impl.dart';
-import 'package:movies_app_train/auth/domain/repositories/auth_repository.dart';
-import 'package:movies_app_train/auth/domain/usecases/login_with_email_and_password_usecase.dart';
 import 'package:movies_app_train/auth/presentation/controller/auth_provider.dart';
 import 'package:movies_app_train/auth/presentation/widgets/custom_text_form_field.dart';
 import 'package:movies_app_train/auth/presentation/widgets/auth_button.dart';

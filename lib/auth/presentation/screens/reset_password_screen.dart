@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/services.dart';
 import 'package:movies_app_train/app/router/app_routes.dart';
 import 'package:movies_app_train/app/theme/app_colors.dart';
 import 'package:movies_app_train/auth/presentation/widgets/custom_text_form_field.dart';
@@ -17,6 +16,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> with SingleTi
   late AnimationController _controller;
   late Animation<double> _opacity;
   late Animation<double> _transform;
+  // ignore: unused_field
   String _email = '';
   @override
   void initState() {

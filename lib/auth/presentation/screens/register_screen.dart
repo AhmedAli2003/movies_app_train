@@ -1,10 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:movies_app_train/app/di.dart';
 import 'package:movies_app_train/app/router/app_routes.dart';
 import 'package:movies_app_train/app/theme/app_colors.dart';
-import 'package:movies_app_train/auth/domain/usecases/register_with_email_and_password_usecase.dart';
 import 'package:movies_app_train/auth/presentation/controller/auth_provider.dart';
 import 'package:movies_app_train/auth/presentation/widgets/custom_text_form_field.dart';
 import 'package:movies_app_train/auth/presentation/widgets/auth_button.dart';

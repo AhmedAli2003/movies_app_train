@@ -14,12 +14,24 @@ class CustomListTileWidget extends StatelessWidget {
     required this.movie,
     required double itemHeight,
     required this.width,
+    required this.onPressedFavorite,
+    required this.onPressedWantToWatch,
+    required this.onPressedWatched,
+    required this.favorite,
+    required this.wantToWatch,
+    required this.watched,
   })  : _itemHeight = itemHeight,
         super(key: key);
 
   final Movie movie;
   final double _itemHeight;
   final double width;
+  final Widget favorite;
+  final Widget wantToWatch;
+  final Widget watched;
+  final VoidCallback onPressedFavorite;
+  final VoidCallback onPressedWantToWatch;
+  final VoidCallback onPressedWatched;
 
   @override
   Widget build(BuildContext context) {
@@ -108,9 +120,21 @@ class CustomListTileWidget extends StatelessWidget {
                             Text(movie.voteAverage.toStringAsFixed(1)),
                           ],
                         ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.favorite_border_rounded),
+                        Row(
+                          children: [
+                            IconButton(
+                              onPressed: onPressedWatched,
+                              icon: watched,
+                            ),
+                            IconButton(
+                              onPressed: onPressedWantToWatch,
+                              icon: wantToWatch,
+                            ),
+                            IconButton(
+                              onPressed: onPressedFavorite,
+                              icon: favorite,
+                            ),
+                          ],
                         ),
                       ],
                     ),

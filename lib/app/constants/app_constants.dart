@@ -8,4 +8,5 @@ class AppConstants {
   static const String id = 'id';
   static const String title = 'title';
   static const String gestureDetectorMoviesKey = 'openMovieMinimalDetail';
+  static const String users = 'users';
 }

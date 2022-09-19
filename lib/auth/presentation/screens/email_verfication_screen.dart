@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:movies_app_train/app/router/app_routes.dart';
+import 'package:movies_app_train/app/theme/app_colors.dart';
+import 'package:movies_app_train/app/utils/general_functions.dart';
 import 'package:movies_app_train/auth/presentation/controller/auth_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -25,6 +27,7 @@ class _EmailVerficationScreenState extends State<EmailVerficationScreen> {
   @override
   void dispose() {
     _timer?.cancel();
+    setSystemOverlayStyle(Brightness.dark);
     super.dispose();
   }
 
@@ -44,22 +47,46 @@ class _EmailVerficationScreenState extends State<EmailVerficationScreen> {
   @override
   Widget build(BuildContext context) {
     _authProvider = Provider.of<AuthProvider>(context);
+    setSystemOverlayStyle(Brightness.light);
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+            const FlutterLogo(
+              size: 175,
+            ),
             const Text(
-              'Check Youe Email',
-              style: TextStyle(color: Colors.black),
+              'Only one step',
+              style: TextStyle(
+                fontSize: 24,
+                color: AppColors.primaryColor,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(
+              width: 280,
+              child: Text(
+                'Check your email, you will receive an email with link, just click on the link..',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18,
+                ),
+                textAlign: TextAlign.center,
+              ),
             ),
             ElevatedButton(
               onPressed: () async {
                 await _authProvider.signOut();
                 _goNext();
               },
-              child: const Text('Sign Out'),
+              child: const Text(
+                'Return to Login',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
             ),
           ],
         ),

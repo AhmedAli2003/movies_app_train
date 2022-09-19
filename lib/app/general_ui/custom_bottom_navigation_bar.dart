@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 
 class MyCustomBottomNavigationBar extends StatefulWidget {
-  const MyCustomBottomNavigationBar({super.key});
+  final int currentIndex;
+  const MyCustomBottomNavigationBar({super.key, required this.currentIndex});
 
   @override
   MyCustomBottomNavigationBarState createState() => MyCustomBottomNavigationBarState();
 }
 
 class MyCustomBottomNavigationBarState extends State<MyCustomBottomNavigationBar> {
-  var currentIndex = 0;
+  late int currentIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    currentIndex = widget.currentIndex;
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -19,7 +27,12 @@ class MyCustomBottomNavigationBarState extends State<MyCustomBottomNavigationBar
         scrollDirection: Axis.horizontal,
         padding: EdgeInsets.symmetric(horizontal: size.width * 0.024),
         itemBuilder: (context, index) => InkWell(
-          onTap: () => setState(() => currentIndex = index),
+          onTap: () {
+            setState(() => currentIndex = index);
+            if (index == 3) {
+              Scaffold.of(context).openDrawer();
+            }
+          },
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
           child: Column(

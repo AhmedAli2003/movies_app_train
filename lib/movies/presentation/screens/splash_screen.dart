@@ -32,7 +32,6 @@ class _SplashScreenState extends State<SplashScreen> {
       ..add(const GetPopularMoviesEvent(initialPage))
       ..add(const GetTopRatedMoviesEvent(initialPage))
       ..add(const GetUpcomingMoviesEvent(initialPage));
-
     makeAnimation();
   }
 
