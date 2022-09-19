@@ -34,5 +34,8 @@ class Movie extends Equatable {
     id,
     title,
     posterPath,
+    releaseDate,
+    overview,
+    voteAverage,
   ];
 }

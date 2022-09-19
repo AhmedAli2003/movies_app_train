@@ -13,6 +13,7 @@ import 'package:movies_app_train/movies/presentation/screens/details_list_movies
 import 'package:movies_app_train/movies/presentation/screens/details_movie_screen.dart';
 import 'package:movies_app_train/movies/presentation/screens/movies_screen.dart';
 import 'package:movies_app_train/movies/presentation/screens/splash_screen.dart';
+import 'package:movies_app_train/movies/presentation/screens/user_movies_screen.dart';
 
 class AppRouter {
   static Route? onGenerateRoute(RouteSettings settings) {
@@ -20,7 +21,15 @@ class AppRouter {
       case AppRoutes.splashScreen:
         return MaterialPageRoute(builder: (_) => const SplashScreen());
       case AppRoutes.moviesScreen:
-        return ThisIsFadeRoute(route: const MoviesScreen());
+        return ThisIsFadeRoute(
+          route: MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (_) => UserMoviesBloc()),
+              BlocProvider(create: (_) => AddUserMoviesBloc()),
+            ],
+            child: const MoviesScreen(),
+          ),
+        );
       case AppRoutes.detailsListMoviesScreen:
         return SlideTransitionRightToLeft(
           page: MultiBlocProvider(
@@ -35,9 +44,24 @@ class AppRouter {
       case AppRoutes.detailsMovieScreen:
         return ThisIsFadeRoute(
           routeSettings: settings,
-          route: BlocProvider(
-            create: (context) => MovieDetailsBloc(),
+          route: MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (_) => MovieDetailsBloc()),
+              BlocProvider(create: (_) => UserMoviesBloc()),
+              BlocProvider(create: (_) => AddUserMoviesBloc()),
+            ],
             child: const DetailsMovieScreen(),
+          ),
+        );
+      case AppRoutes.userMoviesScreen:
+        return ThisIsFadeRoute(
+          routeSettings: settings,
+          route: MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (_) => UserMoviesBloc()),
+              BlocProvider(create: (_) => AddUserMoviesBloc()),
+            ],
+            child: const UserMoviesScreen(),
           ),
         );
       case AppRoutes.registerScreen:

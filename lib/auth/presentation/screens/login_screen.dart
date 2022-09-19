@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:movies_app_train/app/general_ui/simple_loading.dart';
 import 'package:movies_app_train/app/router/app_routes.dart';
 import 'package:movies_app_train/app/theme/app_colors.dart';
 import 'package:movies_app_train/auth/presentation/controller/auth_provider.dart';
@@ -125,6 +126,11 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                               AuthButton(
                                 width: 150,
                                 onTap: () async {
+                                  showDialog(
+                                    context: context,
+                                    barrierDismissible: false,
+                                    builder: (_) => const SimpleLoading(color: Colors.white),
+                                  );
                                   await _authProvider.loginWithEmailAndPassword(
                                     email: _email,
                                     password: _password,
@@ -187,4 +193,3 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
     }
   }
 }
-

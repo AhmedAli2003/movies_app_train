@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:movies_app_train/app/constants/app_values.dart';
 import 'package:movies_app_train/movies/domain/entities/genre.dart';
+import 'package:movies_app_train/movies/domain/entities/movie.dart';
 import 'package:movies_app_train/movies/domain/entities/movie_collection.dart';
 import 'package:movies_app_train/movies/domain/entities/production_company.dart';
 
@@ -57,6 +58,33 @@ class DetailedMovie extends Equatable {
     this.voteAverage = AppValues.doubleOrNull,
   });
 
+  Movie toMovieEntity() {
+    return Movie(
+      id: id,
+      posterPath: posterPath,
+      title: title,
+      releaseDate: releaseDate,
+      overview: overview,
+      voteAverage: voteAverage,
+    );
+  }
+
   @override
-  List<Object?> get props => [id];
+  List<Object?> get props => [
+        id,
+        title,
+        adult,
+        posterPath,
+        collection,
+        budget,
+        genres,
+        overview,
+        homepageUrl,
+        productionCompanies,
+        releaseDate,
+        revenue,
+        runtime,
+        status,
+        voteAverage,
+      ];
 }

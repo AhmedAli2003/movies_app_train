@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:movies_app_train/app/constants/app_constants.dart';
+import 'package:movies_app_train/app/constants/app_strings.dart';
 import 'package:movies_app_train/app/general_ui/drawer_raw.dart';
 import 'package:movies_app_train/app/general_ui/simple_loading.dart';
 import 'package:movies_app_train/app/router/app_routes.dart';
@@ -68,27 +70,47 @@ class AppDrawer extends StatelessWidget {
                   ),
                   _buildDivider(),
                   DrawerRow(
+                    icon: Icons.ondemand_video_rounded,
+                    title: 'Now Playing',
+                    onTap: () {
+                      Navigator.of(context).pushNamed(
+                        AppRoutes.detailsListMoviesScreen,
+                        arguments: AppString.nowPlaying,
+                      );
+                    },
+                  ),
+                  _buildDivider(),
+                  DrawerRow(
                     icon: Icons.favorite_rounded,
                     title: 'Favorites',
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).pushNamed(
+                        AppRoutes.userMoviesScreen,
+                        arguments: AppConstants.favorites,
+                      );
+                    },
                   ),
                   _buildDivider(),
                   DrawerRow(
                     icon: Icons.playlist_add_check_rounded,
                     title: 'To watch later',
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).pushNamed(
+                        AppRoutes.userMoviesScreen,
+                        arguments: AppConstants.wantToWatch,
+                      );
+                    },
                   ),
                   _buildDivider(),
                   DrawerRow(
                     icon: Icons.add_task_rounded,
                     title: 'Watched',
-                    onTap: () {},
-                  ),
-                  _buildDivider(),
-                  DrawerRow(
-                    icon: Icons.settings_rounded,
-                    title: 'Settings',
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).pushNamed(
+                        AppRoutes.userMoviesScreen,
+                        arguments: AppConstants.watched,
+                      );
+                    },
                   ),
                   _buildDivider(),
                   DrawerRow(
@@ -104,11 +126,13 @@ class AppDrawer extends StatelessWidget {
                       showDialog(
                         context: context,
                         barrierDismissible: false,
-                        builder: (_) => const AlertDialog(
-                          content: SizedBox(
+                        builder: (_) => AlertDialog(
+                          contentPadding: EdgeInsets.zero,
+                          content: Container(
+                            color: Colors.white,
                             width: 150,
-                            height: 150,
-                            child: SimpleLoading(),
+                            height: 250,
+                            child: const SimpleLoading(),
                           ),
                         ),
                       );
@@ -121,9 +145,8 @@ class AppDrawer extends StatelessWidget {
                     onTap: () async {
                       showDialog(
                         context: context,
-                        builder: (_) => const AlertDialog(
-                          content: SimpleLoading(),
-                        ),
+                        barrierDismissible: false,
+                        builder: (_) => const SimpleLoading(color: Colors.white),
                       );
                       await authProvider.signOut();
                       goNext();

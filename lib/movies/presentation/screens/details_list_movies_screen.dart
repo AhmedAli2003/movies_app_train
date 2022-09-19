@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movies_app_train/app/constants/app_strings.dart';
+import 'package:movies_app_train/app/general_ui/simple_loading.dart';
 import 'package:movies_app_train/app/network/request_state.dart';
 import 'package:movies_app_train/movies/domain/entities/movie.dart';
 import 'package:movies_app_train/movies/presentation/blocs/add_user_movies/add_user_movies_bloc.dart';
@@ -242,18 +242,18 @@ class _DetailsListMoviesScreenState extends State<DetailsListMoviesScreen> {
                               ),
                             );
                           }
-                          return _page < _pagesLimit ? const Center(child: CircularProgressIndicator(color: Colors.white)) : const SizedBox();
+                          return _page < _pagesLimit ? const SimpleLoading(color: Colors.white) : const SizedBox();
                         },
                       ),
                     );
                   } else {
-                    return Container();
+                    return const SimpleLoading(color: Colors.white);
                   }
                 },
               );
             }
           }
-          return const Center(child: CircularProgressIndicator(color: Colors.white));
+          return const SimpleLoading(color: Colors.white);
         },
       ),
     );

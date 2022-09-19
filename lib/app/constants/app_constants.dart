@@ -9,4 +9,7 @@ class AppConstants {
   static const String title = 'title';
   static const String gestureDetectorMoviesKey = 'openMovieMinimalDetail';
   static const String users = 'users';
+  static const String favorites = 'favorites';
+  static const String wantToWatch = 'wantToWatch';
+  static const String watched = 'watched';
 }

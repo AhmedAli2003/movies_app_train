@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:movies_app_train/app/general_ui/simple_loading.dart';
 import 'package:movies_app_train/app/router/app_routes.dart';
 import 'package:movies_app_train/auth/presentation/controller/auth_provider.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +24,11 @@ class GoogleSignInButton extends StatelessWidget {
         icon: const FaIcon(FontAwesomeIcons.google, color: Colors.red),
         label: const Text('Sign up with Google'),
         onPressed: () async {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (_) => const SimpleLoading(color: Colors.white),
+          );
           final authProvider = Provider.of<AuthProvider>(context, listen: false);
           authProvider.googleLogin().then((value) => Navigator.pushReplacementNamed(context, AppRoutes.moviesScreen));
         },
