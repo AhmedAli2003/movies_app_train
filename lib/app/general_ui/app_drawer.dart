@@ -16,7 +16,7 @@ class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     goNext() {
-      Navigator.of(context).pushReplacementNamed(AppRoutes.loginScreen);
+      Navigator.of(context).pushNamedAndRemoveUntil(AppRoutes.loginScreen, (route) => false);
     }
 
     final authProvider = Provider.of<AuthProvider>(context);

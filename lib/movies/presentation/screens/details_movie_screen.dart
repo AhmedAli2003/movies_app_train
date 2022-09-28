@@ -73,12 +73,8 @@ class _DetailsMovieScreenState extends State<DetailsMovieScreen> {
                               _wantToWatchMovies = state.wantToWatchMovies;
                               _watcedMovies = state.watchedMovies;
                               final bool inFavorite = _favoriteMovies.contains(movieModel);
-                              print(inFavorite);
-                              print(_favoriteMovies);
-                              print(movieModel);
                               final bool inWantToWatch = _wantToWatchMovies.contains(movieModel);
                               final bool inWatched = _watcedMovies.contains(movieModel);
-
                               return Center(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -147,7 +143,7 @@ class _DetailsMovieScreenState extends State<DetailsMovieScreen> {
                                     const SizedBox(height: 16),
                                     const Divider(color: Colors.grey, height: 2, indent: 28, endIndent: 28, thickness: 0.8),
                                     const SimilarShowsTitle(),
-                                    CustomGridView(movies: similarState.similarMovies.movies),
+                                    CustomGridView(movies: similarState.similarMovies.movies,id: movie.id),
                                   ],
                                 ),
                               );

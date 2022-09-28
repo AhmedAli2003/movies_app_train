@@ -15,6 +15,7 @@ import 'package:movies_app_train/movies/domain/entities/movie.dart';
 import 'package:movies_app_train/movies/presentation/blocs/add_user_movies/add_user_movies_bloc.dart';
 import 'package:movies_app_train/movies/presentation/blocs/get_user_movies/get_user_movies_bloc.dart';
 import 'package:movies_app_train/movies/presentation/blocs/movies_bloc/movies_bloc.dart';
+import 'package:movies_app_train/movies/presentation/blocs/search/search_bloc.dart';
 import 'package:movies_app_train/movies/presentation/widgets/carousal_shows_widget.dart';
 import 'package:movies_app_train/movies/presentation/widgets/custom_list_tile_widget.dart';
 import 'package:movies_app_train/movies/presentation/widgets/list_loading_widget.dart';
@@ -29,15 +30,19 @@ class MoviesScreen extends StatefulWidget {
 }
 
 class _MoviesScreenState extends State<MoviesScreen> {
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  bool _didChangeDependencies = true;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   int currentIndex = 0;
   int previousIndex = 0;
   late final UserMoviesBloc _userMoviesBloc;
   late final AddUserMoviesBloc _addUserMoviesBloc;
-  late final String _title;
+  late final SearchBloc _searchBloc;
+  bool _firstSearchCall = true;
+  late String _title;
   List<Movie> _favoriteMovies = [];
   List<Movie> _wantToWatchMovies = [];
   List<Movie> _watcedMovies = [];
+  List<Movie> _searchedMovies = [];
   late final bool _isFavorite;
   late final bool _isWantToWatch;
   late final bool _isWatched;
@@ -45,16 +50,20 @@ class _MoviesScreenState extends State<MoviesScreen> {
 
   @override
   void didChangeDependencies() {
-    super.didChangeDependencies();
-    _userMoviesBloc = BlocProvider.of<UserMoviesBloc>(context);
-    _addUserMoviesBloc = BlocProvider.of<AddUserMoviesBloc>(context);
-    _userMoviesBloc.add(const GetFavoritesEvent());
-    _userMoviesBloc.add(const GetWantToWatchEvent());
-    _userMoviesBloc.add(const GetWatchedEvent());
-    _title = AppConstants.favorites;
-    _isFavorite = _title == AppConstants.favorites;
-    _isWantToWatch = _title == AppConstants.wantToWatch;
-    _isWatched = _title == AppConstants.watched;
+    if (_didChangeDependencies) {
+      super.didChangeDependencies();
+      _userMoviesBloc = BlocProvider.of<UserMoviesBloc>(context);
+      _addUserMoviesBloc = BlocProvider.of<AddUserMoviesBloc>(context);
+      _searchBloc = BlocProvider.of<SearchBloc>(context);
+      _userMoviesBloc.add(const GetFavoritesEvent());
+      _userMoviesBloc.add(const GetWantToWatchEvent());
+      _userMoviesBloc.add(const GetWatchedEvent());
+      _title = AppConstants.favorites;
+      _isFavorite = _title == AppConstants.favorites;
+      _isWantToWatch = _title == AppConstants.wantToWatch;
+      _isWatched = _title == AppConstants.watched;
+      _didChangeDependencies = false;
+    }
   }
 
   Future<bool> _onWillPop() async {
@@ -81,10 +90,9 @@ class _MoviesScreenState extends State<MoviesScreen> {
   @override
   Widget build(BuildContext context) {
     final moviesBloc = BlocProvider.of<MoviesBloc>(context);
-    final width = MediaQuery.of(context).size.width;
-    final oneThirdWidth = width / 3;
-    final listMovieHeight = oneThirdWidth * 1.42;
     final size = MediaQuery.of(context).size;
+    final oneThirdWidth = size.width / 3;
+    final listMovieHeight = oneThirdWidth * 1.42;
     return WillPopScope(
       onWillPop: () async {
         if (currentIndex == 1 || currentIndex == 2) {
@@ -112,7 +120,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
                 ),
               )
             : null,
-        key: scaffoldKey,
+        key: _scaffoldKey,
         onDrawerChanged: (isOpened) {
           if (isOpened) {
             setState(() => previousIndex = currentIndex);
@@ -122,7 +130,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
           }
         },
         drawer: AppDrawer(AppRoutes.moviesScreen),
-        body: _buildBody(moviesBloc, width, listMovieHeight, oneThirdWidth),
+        body: _buildBody(moviesBloc, size.width, listMovieHeight, oneThirdWidth),
         bottomNavigationBar: _buildNavigationBar(size),
       ),
     );
@@ -134,19 +142,149 @@ class _MoviesScreenState extends State<MoviesScreen> {
     } else if (currentIndex == 1) {
       return _buildUserMoviesScreen(width);
     } else if (currentIndex == 2) {
-      return _buildSettingsScreen();
+      return _buildSearchScreen();
     } else {
       if (previousIndex == 0) {
         return _buildMoviesScreen(moviesBloc, width, listMovieHeight, oneThirdWidth);
       } else if (previousIndex == 1) {
         return _buildUserMoviesScreen(width);
       } else {
-        return _buildSettingsScreen();
+        return _buildSearchScreen();
       }
     }
   }
 
-  Center _buildSettingsScreen() => const Center(child: Text('This is settings screen'));
+  Widget _buildSearchScreen() {
+    final width = MediaQuery.of(context).size.width;
+    if (_firstSearchCall) {
+      _searchBloc.add(const SearchEvent('HGFDSRGFVXZCVREHGDDFGHTEFDFGSDFG', 1));
+      _firstSearchCall = false;
+    }
+    return SafeArea(
+      child: Column(
+        children: [
+          TextField(
+            decoration: const InputDecoration(
+              contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+              suffixIcon: Icon(
+                Icons.search,
+                color: AppColors.white,
+              ),
+              hintText: 'Search..',
+            ),
+            cursorColor: AppColors.white,
+            onChanged: (value) {
+              if (value.trim().isNotEmpty) {
+                _searchBloc.add(SearchEvent(value, 1));
+              }
+            },
+          ),
+          Expanded(
+            child: BlocBuilder<SearchBloc, SearchState>(
+              bloc: _searchBloc,
+              builder: (context, searchState) {
+                if (searchState is SearchedMoviesState) {
+                  _searchedMovies = searchState.moviesInfo.movies;
+                  return BlocBuilder<UserMoviesBloc, UserMoviesState>(
+                    builder: (context, state) {
+                      if (state.favoriteMoviesState == RequestState.loaded &&
+                          state.wantToWatchMoviesState == RequestState.loaded &&
+                          state.watchedMoviesState == RequestState.loaded) {
+                        if (_searchedMovies.isNotEmpty) {
+                          return AnimationLimiter(
+                            child: ListView.builder(
+                              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                              physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                              itemCount: _searchedMovies.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                final movie = _searchedMovies[index];
+                                _favoriteMovies = state.favoriteMovies;
+                                _wantToWatchMovies = state.wantToWatchMovies;
+                                _watcedMovies = state.watchedMovies;
+                                final bool inFavorite = _favoriteMovies.contains(movie);
+                                final bool inWantToWatch = _wantToWatchMovies.contains(movie);
+                                final bool inWatched = _watcedMovies.contains(movie);
+                                return AnimationConfiguration.staggeredList(
+                                  position: index,
+                                  delay: const Duration(milliseconds: 100),
+                                  child: SlideAnimation(
+                                    duration: const Duration(milliseconds: 2500),
+                                    curve: Curves.fastLinearToSlowEaseIn,
+                                    child: FadeInAnimation(
+                                      curve: Curves.fastLinearToSlowEaseIn,
+                                      duration: const Duration(milliseconds: 2500),
+                                      child: CustomListTileWidget(
+                                        movie: movie,
+                                        itemHeight: _itemHeight,
+                                        width: width,
+                                        favorite: inFavorite
+                                            ? const Icon(
+                                                Icons.favorite_rounded,
+                                                color: Colors.red,
+                                              )
+                                            : const Icon(
+                                                Icons.favorite_border_rounded,
+                                              ),
+                                        wantToWatch: inWantToWatch
+                                            ? const Icon(
+                                                Icons.playlist_add_check_rounded,
+                                              )
+                                            : const Icon(
+                                                Icons.playlist_add_rounded,
+                                              ),
+                                        watched: inWatched
+                                            ? const Icon(
+                                                Icons.highlight_remove_rounded,
+                                              )
+                                            : const Icon(
+                                                Icons.add_task_rounded,
+                                              ),
+                                        onPressedFavorite: () {
+                                          if (inFavorite) {
+                                            _addUserMoviesBloc.add(RemoveFromFavoriteEvent(movie));
+                                          } else {
+                                            _addUserMoviesBloc.add(AddToFavoriteEvent(movie));
+                                          }
+                                          _userMoviesBloc.add(const GetFavoritesEvent());
+                                        },
+                                        onPressedWantToWatch: () {
+                                          if (inWantToWatch) {
+                                            _addUserMoviesBloc.add(RemoveFromWantToWatchEvent(movie));
+                                          } else {
+                                            _addUserMoviesBloc.add(AddToWantToWatchEvent(movie));
+                                          }
+                                          _userMoviesBloc.add(const GetWantToWatchEvent());
+                                        },
+                                        onPressedWatched: () {
+                                          if (inWatched) {
+                                            _addUserMoviesBloc.add(RemoveFromWathcedEvent(movie));
+                                          } else {
+                                            _addUserMoviesBloc.add(AddToWathcedEvent(movie));
+                                          }
+                                          _userMoviesBloc.add(const GetWatchedEvent());
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        }
+                        return const Center(child: Text('Type valid movie name to search...'));
+                      }
+                      return const SimpleLoading(color: AppColors.white);
+                    },
+                  );
+                }
+                return const SimpleLoading(color: AppColors.white);
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   RefreshIndicator _buildUserMoviesScreen(double width) {
     return RefreshIndicator(
@@ -272,14 +410,12 @@ class _MoviesScreenState extends State<MoviesScreen> {
         itemBuilder: (context, index) => InkWell(
           onTap: () {
             if (index == 3) {
-              scaffoldKey.currentState!.openDrawer();
+              _scaffoldKey.currentState!.openDrawer();
             }
             setState(() {
               currentIndex = index;
             });
           },
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -312,7 +448,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
   final List<IconData> _listOfIcons = [
     Icons.home_rounded,
     Icons.favorite_rounded,
-    Icons.settings_rounded,
+    Icons.search_rounded,
     Icons.menu_rounded,
   ];
 

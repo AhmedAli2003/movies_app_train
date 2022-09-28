@@ -134,14 +134,19 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> googleLogin() async {
+  Future<bool> googleLogin() async {
     final signInWithGoogle = getIt<SignInWithGoogleUsecase>();
     final either = await signInWithGoogle();
+    bool isDone = false;
     either.fold(
       (failure) => _errorMessage = failure.errorMessage,
-      (userCredential) => _user = userCredential.user!,
+      (userCredential) {
+        isDone = true;
+        _authState = AuthState.authenticated;
+        return _user = userCredential.user!;
+      },
     );
-    _authState = AuthState.authenticated;
     notifyListeners();
+    return isDone;
   }
 }

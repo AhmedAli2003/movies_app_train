@@ -10,14 +10,16 @@ import 'package:shimmer/shimmer.dart';
 
 class CustomGridView extends StatelessWidget {
   final List<Movie> movies;
+  final int id;
   const CustomGridView({
     super.key,
     required this.movies,
+    required this.id,
   });
 
   @override
   Widget build(BuildContext context) {
-    final Iterable<Movie> iterable = movies.where((element) => element.posterPath.isNotEmpty);
+    final Iterable<Movie> iterable = movies.where((element) => element.posterPath.isNotEmpty && element.id != id);
     final List<Movie> similars = iterable.length > 12 ? iterable.toList().sublist(0, 12) : iterable.toList();
     double width = MediaQuery.of(context).size.width;
     double heightOfGrid = width / 3 * 4 / 0.7;

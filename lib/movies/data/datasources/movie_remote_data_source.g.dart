@@ -10,7 +10,7 @@ part of 'movie_remote_data_source.dart';
 
 class _MovieRemoteDataSource implements MovieRemoteDataSource {
   _MovieRemoteDataSource(this._dio, {this.baseUrl}) {
-    baseUrl ??= 'https://api.themoviedb.org/3/movie';
+    baseUrl ??= 'https://api.themoviedb.org/3';
   }
 
   final Dio _dio;
@@ -33,7 +33,7 @@ class _MovieRemoteDataSource implements MovieRemoteDataSource {
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<MovieInfoModel>(
             Options(method: 'GET', headers: _headers, extra: _extra)
-                .compose(_dio.options, '/now_playing',
+                .compose(_dio.options, '/movie/now_playing',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = MovieInfoModel.fromJson(_result.data!);
@@ -56,7 +56,7 @@ class _MovieRemoteDataSource implements MovieRemoteDataSource {
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<MovieInfoModel>(
             Options(method: 'GET', headers: _headers, extra: _extra)
-                .compose(_dio.options, '/popular',
+                .compose(_dio.options, '/movie/popular',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = MovieInfoModel.fromJson(_result.data!);
@@ -79,7 +79,7 @@ class _MovieRemoteDataSource implements MovieRemoteDataSource {
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<MovieInfoModel>(
             Options(method: 'GET', headers: _headers, extra: _extra)
-                .compose(_dio.options, '/top_rated',
+                .compose(_dio.options, '/movie/top_rated',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = MovieInfoModel.fromJson(_result.data!);
@@ -102,7 +102,7 @@ class _MovieRemoteDataSource implements MovieRemoteDataSource {
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<MovieInfoModel>(
             Options(method: 'GET', headers: _headers, extra: _extra)
-                .compose(_dio.options, '/upcoming',
+                .compose(_dio.options, '/movie/upcoming',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = MovieInfoModel.fromJson(_result.data!);
@@ -124,7 +124,7 @@ class _MovieRemoteDataSource implements MovieRemoteDataSource {
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<DetailedMovieModel>(
             Options(method: 'GET', headers: _headers, extra: _extra)
-                .compose(_dio.options, '/${id}',
+                .compose(_dio.options, '/movie/${id}',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = DetailedMovieModel.fromJson(_result.data!);
@@ -148,7 +148,32 @@ class _MovieRemoteDataSource implements MovieRemoteDataSource {
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<MovieInfoModel>(
             Options(method: 'GET', headers: _headers, extra: _extra)
-                .compose(_dio.options, '/${id}//similar',
+                .compose(_dio.options, '/movie/${id}/similar',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = MovieInfoModel.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<MovieInfoModel> getSearchedMovies(
+      {apiKey = AppUrls.apiKey,
+      language = AppConstants.language,
+      query = AppValues.empty,
+      page = AppUrls.firstPage}) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'api_key': apiKey,
+      r'language': language,
+      r'query': query,
+      r'page': page
+    };
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<MovieInfoModel>(
+            Options(method: 'GET', headers: _headers, extra: _extra)
+                .compose(_dio.options, '/search//movie',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = MovieInfoModel.fromJson(_result.data!);

@@ -25,6 +25,7 @@ import 'package:movies_app_train/movies/domain/usecases/get_favorites_usecase.da
 import 'package:movies_app_train/movies/domain/usecases/get_movie_details_usecase.dart';
 import 'package:movies_app_train/movies/domain/usecases/get_now_playing_movies_usercase.dart';
 import 'package:movies_app_train/movies/domain/usecases/get_popular_movies_usecase.dart';
+import 'package:movies_app_train/movies/domain/usecases/get_searched_movies_usecase.dart';
 import 'package:movies_app_train/movies/domain/usecases/get_similar_movies_usecase.dart';
 import 'package:movies_app_train/movies/domain/usecases/get_top_rated_movies_usecase.dart';
 import 'package:movies_app_train/movies/domain/usecases/get_upcoming_movies_usecase.dart';
@@ -67,6 +68,7 @@ void setup() {
   getIt.registerLazySingleton<GetWantToWatchUsecase>(() => GetWantToWatchUsecase(getIt()));
   getIt.registerLazySingleton<GetDontWantToWatchUsecase>(() => GetDontWantToWatchUsecase(getIt()));
   getIt.registerLazySingleton<GetWatchedUsecase>(() => GetWatchedUsecase(getIt()));
+  getIt.registerLazySingleton<GetSearchedMoviesUsecase>(() => GetSearchedMoviesUsecase(getIt()));
 
   /// Repositories
   // Movies

@@ -9,6 +9,7 @@ import 'package:movies_app_train/auth/presentation/screens/reset_password_screen
 import 'package:movies_app_train/movies/presentation/blocs/add_user_movies/add_user_movies_bloc.dart';
 import 'package:movies_app_train/movies/presentation/blocs/get_user_movies/get_user_movies_bloc.dart';
 import 'package:movies_app_train/movies/presentation/blocs/movie_details/movie_details_bloc.dart';
+import 'package:movies_app_train/movies/presentation/blocs/search/search_bloc.dart';
 import 'package:movies_app_train/movies/presentation/screens/details_list_movies_screen.dart';
 import 'package:movies_app_train/movies/presentation/screens/details_movie_screen.dart';
 import 'package:movies_app_train/movies/presentation/screens/movies_screen.dart';
@@ -26,6 +27,7 @@ class AppRouter {
             providers: [
               BlocProvider(create: (_) => UserMoviesBloc()),
               BlocProvider(create: (_) => AddUserMoviesBloc()),
+              BlocProvider(create: (_) => SearchBloc()),
             ],
             child: const MoviesScreen(),
           ),

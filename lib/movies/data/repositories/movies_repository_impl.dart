@@ -83,4 +83,16 @@ class MoviesRepositoryImpl implements MoviesRepository {
     }
     return Left(ErrorHandler.errorHandler());
   }
+  
+  @override
+  Future<Either<Failure, MoviesInfo>> getSearchedMovies(String name, int page) async {
+    if (await internetConnection.isConnected) {
+      try {
+        return Right(await remoteDataSource.getSearchedMovies(query: name, page: page));
+      } catch (error) {
+        return Left(ErrorHandler.errorHandler(error: error));
+      }
+    }
+    return Left(ErrorHandler.errorHandler());
+  }
 }

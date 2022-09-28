@@ -1,16 +1,17 @@
 class AppUrls {
   static const String baseUrl = 'https://api.themoviedb.org/3';
-  static const String _movieEndPoint = '/movie';
-  static const String movieBaseUrl = '$baseUrl$_movieEndPoint';
+  static const String movieEndPoint = '/movie';
   static const String apiKey = '4ca6210c4c36c339b58667aa2777140c';
-  static const String nowPlayingMovies = '/now_playing';
-  static const String popularMovies = '/popular';
-  static const String topRatedMovies = '/top_rated';
-  static const String upcomingMovies = '/upcoming';
+  static const String nowPlayingMovies = '$movieEndPoint/now_playing';
+  static const String popularMovies = '$movieEndPoint/popular';
+  static const String topRatedMovies = '$movieEndPoint/top_rated';
+  static const String upcomingMovies = '$movieEndPoint/upcoming';
   static const String similargMovies = '/similar';
+  static const String search = '/search';
   static const String apiKeyQuery = 'api_key';
   static const String languageQuery = 'language';
   static const String pageQuery = 'page';
+  static const String query = 'query';
   static const int firstPage = 1;
   static const String _baseImageUrl = 'https://image.tmdb.org/t/p/w500';
   static String imageUrl(String url) => '$_baseImageUrl$url';

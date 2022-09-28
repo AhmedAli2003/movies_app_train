@@ -30,7 +30,13 @@ class GoogleSignInButton extends StatelessWidget {
             builder: (_) => const SimpleLoading(color: Colors.white),
           );
           final authProvider = Provider.of<AuthProvider>(context, listen: false);
-          authProvider.googleLogin().then((value) => Navigator.pushReplacementNamed(context, AppRoutes.moviesScreen));
+          authProvider.googleLogin().then((isDone) {
+            if (isDone) {
+              Navigator.pushReplacementNamed(context, AppRoutes.moviesScreen);
+            } else {
+              Navigator.of(context).pop();
+            }
+          });
         },
       ),
     );
