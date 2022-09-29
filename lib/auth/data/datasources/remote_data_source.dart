@@ -91,17 +91,24 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
     final userId = _getUid(userCredential);
     final user = userCredential.user!;
-    final userModel = AppUserModel(
-      idM: userId,
-      usernameM: user.displayName,
-      emailM: user.email,
-      passwordM: AppValues.empty,
-      favoritesM: AppValues.detailedMovieModels,
-      watchedM: AppValues.detailedMovieModels,
-      wantToWatchM: AppValues.detailedMovieModels,
-      dontWantToWatchM: AppValues.detailedMovieModels,
-    );
-    await _firestore.collection(AppConstants.users).doc(userId).set(userModel.toJson());
+    if (await _isNewUser(user)) {
+      final userModel = AppUserModel(
+        idM: userId,
+        usernameM: user.displayName,
+        emailM: user.email,
+        passwordM: AppValues.empty,
+        favoritesM: AppValues.detailedMovieModels,
+        watchedM: AppValues.detailedMovieModels,
+        wantToWatchM: AppValues.detailedMovieModels,
+        dontWantToWatchM: AppValues.detailedMovieModels,
+      );
+      await _firestore.collection(AppConstants.users).doc(userId).set(userModel.toJson());
+    }
     return userCredential;
+  }
+
+  Future<bool> _isNewUser(User user) async {
+    final result = await _firestore.collection(AppConstants.users).where(AppConstants.id, isEqualTo: user.uid).get();
+    return result.docs.isEmpty;
   }
 }

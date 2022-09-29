@@ -4,6 +4,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movies_app_train/app/constants/app_constants.dart';
 import 'package:movies_app_train/app/constants/app_strings.dart';
+import 'package:movies_app_train/app/constants/app_values.dart';
 import 'package:movies_app_train/app/general_ui/app_drawer.dart';
 import 'package:movies_app_train/app/general_ui/list_empty_widget.dart';
 import 'package:movies_app_train/app/general_ui/simple_loading.dart';
@@ -32,6 +33,8 @@ class MoviesScreen extends StatefulWidget {
 class _MoviesScreenState extends State<MoviesScreen> {
   bool _didChangeDependencies = true;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  late final TextEditingController _searchController;
+  String _savedValue = '';
   int currentIndex = 0;
   int previousIndex = 0;
   late final UserMoviesBloc _userMoviesBloc;
@@ -52,6 +55,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
   void didChangeDependencies() {
     if (_didChangeDependencies) {
       super.didChangeDependencies();
+      _searchController = TextEditingController();
       _userMoviesBloc = BlocProvider.of<UserMoviesBloc>(context);
       _addUserMoviesBloc = BlocProvider.of<AddUserMoviesBloc>(context);
       _searchBloc = BlocProvider.of<SearchBloc>(context);
@@ -64,6 +68,12 @@ class _MoviesScreenState extends State<MoviesScreen> {
       _isWatched = _title == AppConstants.watched;
       _didChangeDependencies = false;
     }
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   Future<bool> _onWillPop() async {
@@ -100,7 +110,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
           return false;
         }
         if (currentIndex == 0) {
-          return _onWillPop();
+          return await _onWillPop();
         }
         return true;
       },
@@ -157,27 +167,39 @@ class _MoviesScreenState extends State<MoviesScreen> {
   Widget _buildSearchScreen() {
     final width = MediaQuery.of(context).size.width;
     if (_firstSearchCall) {
-      _searchBloc.add(const SearchEvent('HGFDSRGFVXZCVREHGDDFGHTEFDFGSDFG', 1));
+      _searchBloc.add(const SearchEvent(AppValues.randomText, 1));
       _firstSearchCall = false;
     }
     return SafeArea(
       child: Column(
         children: [
-          TextField(
-            decoration: const InputDecoration(
-              contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-              suffixIcon: Icon(
-                Icons.search,
-                color: AppColors.white,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: _searchController,
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(24)),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(24),
+                  borderSide: const BorderSide(color: AppColors.white),
+                ),
+                suffixIcon: const Icon(
+                  Icons.search,
+                  color: AppColors.white,
+                ),
+                hintText: 'Search..',
               ),
-              hintText: 'Search..',
+              cursorColor: AppColors.white,
+              onChanged: (value) {
+                if (value.trim().isEmpty) {
+                  _searchBloc.add(const SearchEvent(AppValues.randomText, 1));
+                } else if (value.trim().isNotEmpty) {
+                  _searchBloc.add(SearchEvent(value, 1));
+                }
+                _savedValue = value.trim();
+              },
             ),
-            cursorColor: AppColors.white,
-            onChanged: (value) {
-              if (value.trim().isNotEmpty) {
-                _searchBloc.add(SearchEvent(value, 1));
-              }
-            },
           ),
           Expanded(
             child: BlocBuilder<SearchBloc, SearchState>(
@@ -408,11 +430,17 @@ class _MoviesScreenState extends State<MoviesScreen> {
         scrollDirection: Axis.horizontal,
         padding: EdgeInsets.symmetric(horizontal: size.width * 0.024),
         itemBuilder: (context, index) => InkWell(
+          splashColor: AppColors.primaryColor,
+          highlightColor: AppColors.primaryColor,
           onTap: () {
+            FocusManager.instance.primaryFocus?.unfocus();
             if (index == 3) {
               _scaffoldKey.currentState!.openDrawer();
             }
             setState(() {
+              if (index == 2) {
+                _searchController.text = _savedValue;
+              }
               currentIndex = index;
             });
           },

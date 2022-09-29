@@ -185,6 +185,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
   }
 
   _goNext() {
+    Navigator.of(context).pop();
     final authState = _authProvider.authState;
     if (authState == AuthState.authenticated) {
       Navigator.of(context).pushReplacementNamed(AppRoutes.moviesScreen);

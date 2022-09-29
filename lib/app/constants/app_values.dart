@@ -16,5 +16,6 @@ class AppValues {
   static const List<DetailedMovie> detailedMovies = [];
   static const List<DetailedMovieModel> detailedMovieModels = [];
   static const String empty = '';
+  static const String randomText = 'HGFDSRGFVXZCVREHGDDFGHTEFDFGSDFG';
   static const int zero = 0;
 }

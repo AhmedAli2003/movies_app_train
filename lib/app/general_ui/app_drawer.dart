@@ -116,7 +116,23 @@ class AppDrawer extends StatelessWidget {
                   DrawerRow(
                     icon: Icons.email_rounded,
                     title: 'Contact us',
-                    onTap: () {},
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        barrierDismissible: true,
+                        builder: (_) => AlertDialog(
+                          contentPadding: EdgeInsets.zero,
+                          content: Container(
+                            color: Colors.white,
+                            width: 150,
+                            height: 250,
+                            child: const Center(
+                              child: Text('Soon..', style: TextStyle(color: Colors.black)),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
                   ),
                   _buildDivider(),
                   DrawerRow(
@@ -125,14 +141,16 @@ class AppDrawer extends StatelessWidget {
                     onTap: () {
                       showDialog(
                         context: context,
-                        barrierDismissible: false,
+                        barrierDismissible: true,
                         builder: (_) => AlertDialog(
                           contentPadding: EdgeInsets.zero,
                           content: Container(
                             color: Colors.white,
                             width: 150,
                             height: 250,
-                            child: const SimpleLoading(),
+                            child: const Center(
+                              child: Text('Soon..', style: TextStyle(color: Colors.black)),
+                            ),
                           ),
                         ),
                       );

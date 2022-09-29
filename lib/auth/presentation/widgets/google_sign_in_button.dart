@@ -31,10 +31,9 @@ class GoogleSignInButton extends StatelessWidget {
           );
           final authProvider = Provider.of<AuthProvider>(context, listen: false);
           authProvider.googleLogin().then((isDone) {
+            Navigator.of(context).pop();
             if (isDone) {
               Navigator.pushReplacementNamed(context, AppRoutes.moviesScreen);
-            } else {
-              Navigator.of(context).pop();
             }
           });
         },

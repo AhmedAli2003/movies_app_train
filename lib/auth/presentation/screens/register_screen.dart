@@ -179,6 +179,7 @@ class _RegisterScreenState extends State<RegisterScreen> with SingleTickerProvid
   }
 
   void _goNext() {
+    Navigator.of(context).pop();
     final authState = _authProvider.authState;
     if (authState == AuthState.emailNotVerified) {
       Navigator.of(context).pushReplacementNamed(AppRoutes.emailVerficationScreen);
