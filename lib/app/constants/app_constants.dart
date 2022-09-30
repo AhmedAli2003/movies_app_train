@@ -1,6 +1,6 @@
 class AppConstants {
   static const String language = 'en-US';
-  static const String appTitle = 'Movies App';
+  static const String appTitle = 'HoShows';
   static const String applicationJson = 'application/json';
   static const String moviesSingleChildScrollViewKey = 'movieScrollView';
   static const String posterPathHeroTag = 'poster-hero-tag';
